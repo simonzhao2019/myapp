@@ -1,60 +1,51 @@
-import React, { Component } from "react";
-
-//自己的引入
-import "./App.css";
-import Add from './components/add/add';
-import List from './components/list/list';
-
-
+import React, { Component } from "react"
+import {
+  BrowserRouter,
+  HashRouter,
+  Route,
+  Link,
+  NavLink,
+  Switch,
+  Redirect
+} from "react-router-dom"
+import About from './pages/about';
+import Home from './pages/home';
 
 export default class App extends Component {
- 
-  state={
-    comments:[
-      {id:2,userName:"tom",content:"react1111111"}
-       ,{id:3,userName:"bob",content:"12221"}
-    ]
-  }
-  addComment = (comment) => {
-    const {comments} = this.state
-    this.setState({
-      comments: [comment,...comments]
-    })
-  }
-  deleteComment=(index)=>{
-    const {comments}=this.state
-    this.setState({
-      comments: comments.filter((c, i) => i!=index)
-      // comments:comments.reduce((pre,c,i)=>{
-      //   if(i!==index){
-      //     pre.push(c)
-      //   }
-      //   return pre
-      // },[])
-    })
-  }
-
-
- 
   render() {
-    const {comments}=this.state
     return (
-      <div>
-        <header className="site-header jumbotron">
-          <div className="container">
-            <div className="row">
-              <div className="col-xs-12">
-                <h1>请发表对React的评论</h1>
+      <BrowserRouter>
+        <div className="row">
+          <div className="col-xs-offset-2 col-xs-8">
+            <div className="page-header">
+              <h2>React Router Demo</h2>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-2 col-xs-offset-2">
+            <div className="list-group">
+              <NavLink className="list-group-item" to="/about">
+                About
+              </NavLink>
+              <NavLink className="list-group-item" to="/home">
+                Home
+              </NavLink>
+            </div>
+          </div>
+          <div className="col-xs-6">
+            <div className="panel">
+              <div className="panel-body">
+                <Switch>
+                  <Route path="/about" component={About}  />
+                  <Route path="/home" component={Home} />
+                  <Redirect to="/home"></Redirect>
+                </Switch>
               </div>
             </div>
           </div>
-        </header>
-        <div className="container">
-          <Add addComment={this.addComment}></Add>
-          <List comments={comments} deleteName={this.deleteComment}> </List>
         </div>
-      </div>
-    )
+      </BrowserRouter>
+    );
   }
 }
-
